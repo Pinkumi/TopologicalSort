@@ -1,4 +1,4 @@
-package com.topologicalsort;
+package com.topologicalsort.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

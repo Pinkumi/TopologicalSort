@@ -5,4 +5,6 @@ module com.topologicalsort {
 
     opens com.topologicalsort to javafx.fxml;
     exports com.topologicalsort;
+    exports com.topologicalsort.GUI;
+    opens com.topologicalsort.GUI to javafx.fxml;
 }
