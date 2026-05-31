@@ -3,7 +3,7 @@ package com.topologicalsort.Logic;
 import com.topologicalsort.Tools.ColaCircular;
 import com.topologicalsort.Tools.Nodo;
 import java.util.ArrayList;
-import java.util.Queue;
+import java.util.HashMap;
 
 /**
  * Clase que representa un grafo aciclico dirigido
@@ -82,15 +82,64 @@ public class GrafoDirigidoAciclico <T>{
     }
 
 
+    /**
+     * Este metodo utiliza el topologicalSort
+     * el cual devuelve el grafo acomodado por
+     * la cantidad de flechas que entran a los nodos
+     * si uno le llegan 0, sera el primero en la lista
+     * @return String el cual sera el metodo acomodado, o si no se pudo
+     * usar
+     */
     public String topologicalSort() {
+        //Directamente verificamos si hay ciclo, para evitar hacer el ordenamiento
+        //si llega a haber uno
+        if(tieneCiclos()){
+            return "Error, el grafo contiene un ciclo, no se puede realizar el ordenamiento";
+        }
         ColaCircular<Nodo<T>> topo = new ColaCircular<>(n);
+        ArrayList<T> resultado = new ArrayList<>();
+
+        //Se utiliza para ir guardando los grados de forma temporal
+        //sin tener que cambiar el arraylist original
+        HashMap<Nodo<T>,Integer> gradosTemp = new HashMap<>();
+
+        //Llenamos el hashmap con los nodos y sus entradas
         for(Nodo<T> n: nodos){
-            if(n.getEntradas().isEmpty()){
+            int grado = n.gradoDeEntrada();
+            gradosTemp.put(n, grado);
+
+            //Si no tiene entradas se va agregando a la cola
+            //para ser procesado
+            if(grado==0){
                 topo.insertar(n);
             }
         }
 
-        return "";
+        while(!topo.isEmpty()){
+            Nodo<T> actual = topo.eliminar();
+            resultado.add(actual.getInfo());
+
+            //Por cada arista la cual sale del nodo actual, le quitamos uno a su grado
+            //Y lo agregamos al hashmap
+            for(Nodo<T> vecino : actual.getSalidas()){
+                int nuevoGrado = gradosTemp.get(vecino)-1;
+                gradosTemp.put(vecino, nuevoGrado);
+
+                //Si se encuentra uno sin vecinos de entrada, sera el siguiente en analizar
+                if(nuevoGrado==0){
+                    topo.insertar(vecino);
+                }
+            }
+        }
+
+        //Juntamos toda la informacion separada por " - " como se pide en la entrega
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<n; i++){
+            if(i>0)sb.append(" - ");
+            sb.append(resultado.get(i));
+        }
+
+        return "Orden Topologico: " + sb.toString();
     }
 
     public boolean tieneCiclos() {
@@ -163,8 +212,7 @@ public class GrafoDirigidoAciclico <T>{
         if (i < 0 || i >= n || j < 0 || j >= n) {
             throw new IllegalArgumentException();
         }
-        nodos.get(i).agregarNodoSalida(nodos.get(j));
-        nodos.get(j).agregarNodoEntrada(nodos.get(i));
+        nodos.get(i).conectarHacia(nodos.get(j));
         if(tieneCiclos()){
             nodos.get(i).eliminarNodoSalida(nodos.get(j));
             nodos.get(j).eliminarNodoEntrada(nodos.get(i));
@@ -174,6 +222,9 @@ public class GrafoDirigidoAciclico <T>{
         return true;
     }
 
+    /**
+     * Elimina todas las aristas del grafo
+     */
     public void eliminarAristas() {
         for (Nodo<T> n : nodos){
             ArrayList<Nodo<T>> nodosEntradas = n.getEntradas();
