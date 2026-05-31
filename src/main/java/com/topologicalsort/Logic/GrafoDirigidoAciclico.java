@@ -37,7 +37,7 @@ public class GrafoDirigidoAciclico <T>{
         if (i < 0 || i >= n) {
             throw new IllegalArgumentException();
         }
-        return 0;
+        return nodos.get(i).gradoDeSalida();
     }
 
     public int cuantasAristasHay() {
