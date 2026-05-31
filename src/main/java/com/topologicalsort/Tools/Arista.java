@@ -1,5 +1,10 @@
 package com.topologicalsort.Tools;
 
+/**
+ * Clase que representa un arista entre 2 nodos
+ *
+ * @param <T>
+ */
 public class Arista <T>{
     private Nodo<T> fin;
     private Nodo<T> inicio;

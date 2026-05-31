@@ -1,5 +1,11 @@
 package com.topologicalsort.Logic;
 
+
+/**
+ * Clase que representa un grafo aciclico dirigido
+ *
+ * @param <T>
+ */
 public class GrafoDirigidoAciclico {
 
     private int n; // cant vertices en grafo
