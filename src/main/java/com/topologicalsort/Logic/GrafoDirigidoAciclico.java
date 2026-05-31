@@ -233,4 +233,16 @@ public class GrafoDirigidoAciclico <T>{
             }
         }
     }
+
+    public void agregarNodo(T info){
+        nodos.add(new Nodo<>(info));
+    }
+
+    public ArrayList<Nodo<T>> getNodos(){
+        return nodos;
+    }
+
+    public int getSize(){
+        return n;
+    }
 }
