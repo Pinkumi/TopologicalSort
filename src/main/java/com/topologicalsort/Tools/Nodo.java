@@ -17,8 +17,8 @@ public class Nodo <T>{
 
     public Nodo(T info){
         this.info = info;
-        this.salidas=null;
-        this.entradas=null;
+        this.salidas = new ArrayList<Nodo<T>>();
+        this.entradas = new ArrayList<Nodo<T>>();
     }
 
     public Nodo(T info, ArrayList<Nodo<T>> salida, ArrayList<Nodo<T>> entradas){
