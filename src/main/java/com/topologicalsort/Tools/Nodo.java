@@ -14,7 +14,6 @@ public class Nodo <T>{
     private ArrayList<Nodo<T>> salidas;
     private ArrayList<Nodo<T>> entradas;
 
-
     public Nodo(T info){
         this.info = info;
         this.salidas = new ArrayList<Nodo<T>>();

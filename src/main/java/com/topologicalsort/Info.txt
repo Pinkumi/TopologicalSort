@@ -7,3 +7,19 @@
      * @param
      * @return
      */
+
+
+     /**
+          * Compara la información de este nodo con otro valor genérico.
+          * * @param <E> El tipo de dato del elemento a comparar.
+          * @param elemento El valor que se va a comparar con la información del nodo.
+          * @return true si son iguales, false en caso contrario.
+          */
+
+     /**
+          * Obtiene un nodo vecino específico basado en su posición en la lista.
+          *
+          * @param indice La posición exacta del vecino que se desea obtener (empezando en 0).
+          * @return El nodo vecino encontrado en la posición especificada.
+          * @throws IndexOutOfBoundsException Si el índice proporcionado es negativo o mayor al tamaño de la lista.
+          */

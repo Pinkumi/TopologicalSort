@@ -83,6 +83,13 @@ public class GrafoDirigidoAciclico <T>{
 
 
     public String topologicalSort() {
+        ColaCircular<Nodo<T>> topo = new ColaCircular<>(n);
+        for(Nodo<T> n: nodos){
+            if(n.getEntradas().isEmpty()){
+                topo.insertar(n);
+            }
+        }
+
         return "";
     }
 
@@ -146,14 +153,33 @@ public class GrafoDirigidoAciclico <T>{
         return sb.toString();
     }
 
+    /**
+     * Conecta dos nodos por una arista.
+     * @param i El nodo de donde sale la arista.
+     * @param j El nodo al cual se conecta i
+     * @return true si se pudo conectar la arista.
+     */
     public boolean insertarArista(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
             throw new IllegalArgumentException();
         }
-        return false;
+        nodos.get(i).agregarNodoSalida(nodos.get(j));
+        nodos.get(j).agregarNodoEntrada(nodos.get(i));
+        if(tieneCiclos()){
+            nodos.get(i).eliminarNodoSalida(nodos.get(j));
+            nodos.get(j).eliminarNodoEntrada(nodos.get(i));
+            return false;
+        }
+
+        return true;
     }
 
-    public void elimiarAristas() {
-
+    public void eliminarAristas() {
+        for (Nodo<T> n : nodos){
+            ArrayList<Nodo<T>> nodosEntradas = n.getEntradas();
+            for(Nodo<T> entrada: nodosEntradas){
+                n.eliminarNodoEntrada(entrada);
+            }
+        }
     }
 }
