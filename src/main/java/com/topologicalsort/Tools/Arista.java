@@ -11,7 +11,7 @@ public class Arista <T>{
 
     @Override
     public String toString(){
-        return "Inicio-> " + inicio +" -- " +fin+" <- fin";
+        return "Inicio -> " + inicio +" -- " +fin+" <- fin";
     }
 
     //region setters y getters
