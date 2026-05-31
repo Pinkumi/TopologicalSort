@@ -14,11 +14,10 @@ public class Nodo <T>{
     private ArrayList<Nodo<T>> salidas;
     private ArrayList<Nodo<T>> entradas;
 
-
     public Nodo(T info){
         this.info = info;
-        this.salidas=null;
-        this.entradas=null;
+        this.salidas=new ArrayList<>();
+        this.entradas=new ArrayList<>();
     }
 
     public Nodo(T info, ArrayList<Nodo<T>> salida, ArrayList<Nodo<T>> entradas){

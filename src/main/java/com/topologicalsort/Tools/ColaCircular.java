@@ -1,4 +1,4 @@
-package com.topologicalsort.Logic;
+package com.topologicalsort.Tools;
 
 /**
  * Clase que representa una cola circular
