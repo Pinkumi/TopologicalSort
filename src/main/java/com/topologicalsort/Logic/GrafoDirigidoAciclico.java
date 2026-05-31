@@ -18,11 +18,10 @@ public class GrafoDirigidoAciclico {
     public int gradoDeEntrada(int i) {
         if (i < 0 || i >= n) {
             throw new IllegalArgumentException();
-
-
-
-
         }
+
+
+
         return 0;
     }
 
