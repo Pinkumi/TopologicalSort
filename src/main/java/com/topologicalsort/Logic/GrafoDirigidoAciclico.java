@@ -1,7 +1,7 @@
 package com.topologicalsort.Logic;
 
 import com.topologicalsort.Tools.Nodo;
-import java.util.ArrayList
+import java.util.ArrayList;
 /**
  * Clase que representa un grafo aciclico dirigido
  *
