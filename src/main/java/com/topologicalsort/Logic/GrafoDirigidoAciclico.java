@@ -2,6 +2,8 @@ package com.topologicalsort.Logic;
 
 import com.topologicalsort.Tools.Nodo;
 import java.util.ArrayList;
+import java.util.Queue;
+
 /**
  * Clase que representa un grafo aciclico dirigido
  *
@@ -64,6 +66,8 @@ public class GrafoDirigidoAciclico <T>{
     }
 
     public boolean tieneCiclos() {
+        Queue<>
+
         return false;
     }
 
