@@ -8,11 +8,20 @@ public class GrafoDirigidoAciclico {
     public GrafoDirigidoAciclico(int n) {
         this.n = n;
         //this.matriz = aun no se q  estructura
+
+
+
+
+
     }
 
     public int gradoDeEntrada(int i) {
         if (i < 0 || i >= n) {
             throw new IllegalArgumentException();
+
+
+
+
         }
         return 0;
     }
