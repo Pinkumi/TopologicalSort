@@ -1,24 +1,26 @@
 package com.topologicalsort.Logic;
 
-
+import com.topologicalsort.Tools.Nodo;
+import java.util.ArrayList
 /**
  * Clase que representa un grafo aciclico dirigido
  *
  * @param <T>
  */
-public class GrafoDirigidoAciclico {
 
-    private int n; // cant vertices en grafo
-    //private matriz;  aun no se q  estructura
+public class GrafoDirigidoAciclico <T>{
+
+    private int n; //Cantidad maxima de nodos
+    private ArrayList<Nodo<T>> nodos;
 
     public GrafoDirigidoAciclico(int n) {
         this.n = n;
-        //this.matriz = aun no se q  estructura
+        this.nodos= new ArrayList<>();
+    }
 
-
-
-
-
+    public GrafoDirigidoAciclico(int n, ArrayList<Nodo<T>> nodos){
+        this.n = n;
+        this.nodos= nodos;
     }
 
     public int gradoDeEntrada(int i) {
