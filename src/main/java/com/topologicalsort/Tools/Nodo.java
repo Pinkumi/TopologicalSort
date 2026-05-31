@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * Clase la cual esta parametrizada tipo T
  * Sirve como nodos del grafo
+ * Contiene como atributo un arraylist de vecinos y info
  * @param <T>
  */
 
