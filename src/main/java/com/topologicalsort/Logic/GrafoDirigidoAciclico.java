@@ -196,32 +196,48 @@ public class GrafoDirigidoAciclico <T>{
         return false;
     }
 
+    public int[][] getMatrizAdy() {
+        int n = nodos.size();
+        int[][] matriz = new int[n][n];
+        for (int i = 0; i<n; i++) {
+            for (int j = 0;j<n; j++) {
+                for (Nodo<T> salida : nodos.get(i).getSalidas()) {
+                    if (salida == nodos.get(j)) {
+                        matriz[i][j]=1;
+                        break;
+                    }
+                }
+            }
+        }
+        return matriz;
+    }
+    public ArrayList<String> getNodosTxt() {
+        ArrayList<String> nodosText = new ArrayList<>();
+        for (Nodo<T> nodo : nodos) {
+            nodosText.add(nodo.getInfo().toString());
+        }
+        return nodosText;
+    }
+  
+  
     /**
      * Metodo el cual sirve para mostrar la matriz de adyacencia
      * @return String el cual es en forma de matriz
      */
     public String mostrarEstructura() {
         StringBuilder sb = new StringBuilder();
+        ArrayList<String> nombres = getNodosTxt();
+        int[][] matriz = getMatrizAdy();
         sb.append("DATO\t");
-        for(Nodo<T> nodo : nodos){
-            sb.append(nodo.getInfo()).append("\t");
+        for (String nombre : nombres) {
+            sb.append(nombre).append("\t");
         }
         sb.append("\n");
-        for(int i = 0; i < nodos.size(); i++){
-            sb.append(nodos.get(i).getInfo()).append("\t");
-            for(int j = 0; j < nodos.size(); j++){
-                boolean encontrado = false;
-                for(Nodo<T> salida : nodos.get(i).getSalidas()){
-                    if(salida == nodos.get(j)){
-                        encontrado = true;
-                        break;
-                    }
-                }
-                if(encontrado){
-                    sb.append("1\t");
-                }else{
-                    sb.append("0\t");
-                }
+
+        for (int i = 0; i < nombres.size(); i++) {
+            sb.append(nombres.get(i)).append("\t");
+            for (int j = 0; j < nombres.size(); j++) {
+                sb.append(matriz[i][j]).append("\t");
             }
             sb.append("\n");
         }
