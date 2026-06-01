@@ -31,6 +31,7 @@ public class Controller {
         vista.getNuevoGrafo().setOnAction(e -> {
             crearGrafo();
         });
+        vista.getAgregarArista().setOnAction(e -> agregarArista());
 
 
 
@@ -56,5 +57,15 @@ public class Controller {
     }
     public View getVista() {
         return vista;
+    }
+    public void agregarArista(){
+        int[] seleccion = vista.getIdxNodes();
+        if(seleccion == null){
+//            System.out.println("invalido");
+            return;
+        }
+        logica.insertarArista(seleccion[0], seleccion[1]);
+        vista.actualizarMatriz(logica.getNodosTxt(), logica.getMatrizAdy());
+        vista.limpiarSeleccion();
     }
 }
