@@ -3,8 +3,11 @@ package com.topologicalsort.GUI;
 import com.topologicalsort.Tools.Nodo;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -172,6 +175,73 @@ public class View extends Pane {
         nodosSelec.clear();
     }
 
+
+
+    //region popups
+    public void mostrarInDeg(int inDegree, String nodoTxt){
+        Stage wind = new Stage();
+        wind.initModality(Modality.APPLICATION_MODAL);
+        Label label = new Label("El nodo "+ nodoTxt+ " tiene " + inDegree + " grados de entrada");
+        StackPane root = new StackPane(label);
+        Scene scene = new Scene(root);
+        wind.setScene(scene);
+        wind.showAndWait();
+    }
+    public void mostrarOutDeg(int outDegree, String nodoTxt){
+        Stage wind = new Stage();
+        wind.initModality(Modality.APPLICATION_MODAL);
+        Label label = new Label("El nodo "+ nodoTxt+ " tiene " + outDegree + " grados de salida");
+        StackPane root = new StackPane(label);
+        Scene scene = new Scene(root);
+        wind.setScene(scene);
+        wind.showAndWait();
+    }
+
+    public void mostrarEsAdy(boolean esAdy){
+        Stage wind = new Stage();
+        wind.initModality(Modality.APPLICATION_MODAL);
+        Label label;
+        if(esAdy) label = new Label("Los 2 nodos son adyacentes");
+        else label = new Label("Los nodos NO son adyacentes");
+        StackPane root = new StackPane(label);
+        Scene scene = new Scene(root);
+        wind.setScene(scene);
+        wind.showAndWait();
+    }
+    public void mostrarEstanConectados(boolean estanConect){
+        Stage wind = new Stage();
+        wind.initModality(Modality.APPLICATION_MODAL);
+        Label label;
+        if(estanConect) label = new Label("Los 2 nodos estan conectaods");
+        else label = new Label("Los nodos NO estan conectaods");
+
+        StackPane root = new StackPane(label);
+        Scene scene = new Scene(root);
+        wind.setScene(scene);
+        wind.showAndWait();
+    }
+    public void mostrarAristasTot(int aristasTot){
+        Stage wind = new Stage();
+        wind.initModality(Modality.APPLICATION_MODAL);
+        Label label = new Label("En el grafo hay un total de: " + aristasTot+ " Aristas");
+
+        StackPane root = new StackPane(label);
+        Scene scene = new Scene(root);
+        wind.setScene(scene);
+        wind.showAndWait();
+    }
+    public void mostrarOrdenados(String ordenados){
+        Stage wind = new Stage();
+        wind.initModality(Modality.APPLICATION_MODAL);
+        Label label = new Label(ordenados);
+        StackPane root = new StackPane(label);
+        Scene scene = new Scene(root);
+        wind.setScene(scene);
+        wind.showAndWait();
+    }
+
+    //endregion
+
     //region getters de botones para asignar funcion
     public Button getNuevoGrafo(){
         return nuevoGrafo;
@@ -185,10 +255,10 @@ public class View extends Pane {
     public Button getTopologicalSort(){
         return topologicalSort;
     }
-    public Button getGetInDegree(){
+    public Button getInDegree(){
         return getInDegree;
     }
-    public Button getGetOutDegree(){
+    public Button getOutDegree(){
         return getOutDegree;
     }
     public Button getConectado(){

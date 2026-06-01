@@ -42,9 +42,11 @@ public class Nodo <T>{
      * @param destino El otro nodo al cual se va a conectar
      */
     public void conectarHacia(Nodo<T> destino) {
-        if(destino != null){
-            this.salidas.add(destino);
-            destino.entradas.add(this);
+        if (destino != null) {
+            if (!this.salidas.contains(destino)) {
+                this.salidas.add(destino);
+                destino.entradas.add(this);
+            }
         }
     }
 
