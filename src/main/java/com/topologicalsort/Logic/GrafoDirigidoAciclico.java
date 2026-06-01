@@ -4,6 +4,7 @@ import com.topologicalsort.Tools.ColaCircular;
 import com.topologicalsort.Tools.Nodo;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 /**
  * Clase que representa un grafo aciclico dirigido
@@ -52,10 +53,10 @@ public class GrafoDirigidoAciclico <T>{
 
     /**
      * Verifica si dos nodos son vecinos, es decir
-     * estan conectados entre si
+     * están conectados entre si
      * @param i El nodo de donde se inicia.
      * @param j El nodo al quiere llegar
-     * @return true si estan conectados
+     * @return true si están conectados
      */
     public boolean adyacente(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
@@ -71,7 +72,7 @@ public class GrafoDirigidoAciclico <T>{
      * Verifica si desde el nodo a se puede llegar al nodo b.
      * @param i El nodo de donde se inicia.
      * @param j El nodo al quiere llegar
-     * @return true si estan conectados
+     * @return true si están conectados
      */
     public boolean conectados(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
@@ -104,17 +105,20 @@ public class GrafoDirigidoAciclico <T>{
      * Este metodo utiliza el topologicalSort
      * el cual devuelve el grafo acomodado por
      * la cantidad de flechas que entran a los nodos
-     * si uno le llegan 0, sera el primero en la lista
-     * @return String el cual sera el metodo acomodado, o si no se pudo
+     * si uno le llegan 0, será el primero en la lista
+     * @return String el cual será el metodo acomodado, o si no se pudo
      * usar
      */
+
     public String topologicalSort() {
         //Directamente verificamos si hay ciclo, para evitar hacer el ordenamiento
         //si llega a haber uno
         if(tieneCiclos()){
             return "Error, el grafo contiene un ciclo, no se puede realizar el ordenamiento";
         }
-        ColaCircular<Nodo<T>> topo = new ColaCircular<>(n);
+
+        //Sirve para que al momento de acomodarlos en la cola estos se acomoden tomando en cuenta su grado de entrada
+        PriorityQueue<Nodo<T>> topo = new PriorityQueue<>((a, b) -> Integer.compare(a.gradoDeEntrada(), b.gradoDeEntrada()));
         ArrayList<T> resultado = new ArrayList<>();
 
         //Se utiliza para ir guardando los grados de forma temporal
@@ -129,12 +133,12 @@ public class GrafoDirigidoAciclico <T>{
             //Si no tiene entradas se va agregando a la cola
             //para ser procesado
             if(grado==0){
-                topo.insertar(n);
+                topo.add(n);
             }
         }
 
         while(!topo.isEmpty()){
-            Nodo<T> actual = topo.eliminar();
+            Nodo<T> actual = topo.poll();
             resultado.add(actual.getInfo());
 
             //Por cada arista la cual sale del nodo actual, le quitamos uno a su grado
@@ -145,7 +149,7 @@ public class GrafoDirigidoAciclico <T>{
 
                 //Si se encuentra uno sin vecinos de entrada, sera el siguiente en analizar
                 if(nuevoGrado==0){
-                    topo.insertar(vecino);
+                    topo.add(vecino);
                 }
             }
         }
@@ -254,6 +258,9 @@ public class GrafoDirigidoAciclico <T>{
     public boolean insertarArista(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
             throw new IllegalArgumentException("Índices fuera de rango.");
+        }
+        if(nodos.get(i).getSalidas().contains(nodos.get(j))){
+            throw new IllegalArgumentException("Arista repetida.");
         }
         nodos.get(i).conectarHacia(nodos.get(j));
         if(tieneCiclos()){

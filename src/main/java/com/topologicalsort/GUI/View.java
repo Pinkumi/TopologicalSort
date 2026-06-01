@@ -107,8 +107,8 @@ public class View extends BorderPane {
         gatito2.setFitWidth(140);
         gatito2.setFitHeight(140);
         gatito2.setPreserveRatio(true);
-        gatito2.setLayoutX(15);
-        gatito2.setLayoutY(670);
+        gatito2.setLayoutX(50);
+        gatito2.setLayoutY(0);
 
         nodosScroll.setLayoutX(133);
         nodosScroll.setLayoutY(50);
@@ -118,7 +118,7 @@ public class View extends BorderPane {
 
         matrizScroll.setLayoutX(160);
         matrizScroll.setLayoutY(470);
-        panel.getChildren().addAll(nodosScroll, botonesPanel, matrizScroll, gatito1);
+        panel.getChildren().addAll(nodosScroll, botonesPanel, matrizScroll, gatito1,gatito2);
         setCenter(panel);
 
         matrizScroll.setContent(matrizPanel);

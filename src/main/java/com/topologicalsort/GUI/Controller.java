@@ -76,7 +76,7 @@ public class Controller {
             logica.insertarArista(seleccion[0], seleccion[1]);
             vista.actualizarMatriz(logica.getNodosTxt(), logica.getMatrizAdy());
         } catch (Exception e) {
-            vista.mostrarAlertaError("Error de Conexión", "No se pudo añadir la arista ya que genera ciclo");
+            vista.mostrarAlertaError("Error de Conexión", "No se pudo añadir la arista ya que genera ciclo o se repite");
         }
         vista.limpiarSeleccion();
     }
