@@ -32,10 +32,15 @@ public class Controller {
             crearGrafo();
         });
         vista.getAgregarArista().setOnAction(e -> agregarArista());
-
-
+        vista.getConectado().setOnAction(e -> estanConectados());
+        vista.getSonAdyacentes().setOnAction(e -> esAdy());
+        vista.getOutDegree().setOnAction(e -> mostrarOutDeg());
+        vista.getInDegree().setOnAction(e -> mostrarInDeg());
+        vista.getTotalAristas().setOnAction(e -> mostrarAristasTot());
+        vista.getTopologicalSort().setOnAction(e -> ordenar());
 
     }
+
     public void crearGrafo() {
         ArrayList<String> nombres = vista.pedirNodos();
         if(nombres == null){
@@ -58,6 +63,9 @@ public class Controller {
     public View getVista() {
         return vista;
     }
+
+
+    //region botones funciones
     public void agregarArista(){
         int[] seleccion = vista.getIdxNodes();
         if(seleccion == null){
@@ -68,4 +76,63 @@ public class Controller {
         vista.actualizarMatriz(logica.getNodosTxt(), logica.getMatrizAdy());
         vista.limpiarSeleccion();
     }
+    public void esAdy(){
+        int[] seleccion = vista.getIdxNodes();
+        if(seleccion == null){
+//            System.out.println("invalido");
+            return;
+        }
+        boolean sonAdy = logica.adyacente(seleccion[0], seleccion[1]);
+        vista.mostrarEsAdy(sonAdy);
+        vista.limpiarSeleccion();
+    }
+    public void estanConectados(){
+        int[] seleccion = vista.getIdxNodes();
+        if(seleccion == null){
+//            System.out.println("invalido");
+            return;
+        }
+        boolean conect = logica.conectados(seleccion[0], seleccion[1]);
+        vista.mostrarEstanConectados(conect);
+        vista.limpiarSeleccion();
+    }
+    public void mostrarInDeg(){
+        int seleccion = vista.getIdx();
+
+        if(seleccion == -1){
+            return;
+        }
+        String nodoTxt = (String)logica.getNodosTxt().get(seleccion);
+        int inDeg = logica.gradoDeEntrada(seleccion);
+        vista.mostrarInDeg(inDeg, nodoTxt);
+        vista.limpiarSeleccion();
+    }
+    public void mostrarOutDeg(){
+        int seleccion = vista.getIdx();
+
+        if(seleccion == -1){
+            return;
+        }
+        String nodoTxt = (String)logica.getNodosTxt().get(seleccion);
+        int OutDeg = logica.gradoDeSalida(seleccion);
+        vista.mostrarOutDeg(OutDeg, nodoTxt);
+        vista.limpiarSeleccion();
+    }
+
+    public void mostrarAristasTot(){
+        int arisT = logica.cuantasAristasHay();
+        vista.mostrarAristasTot(arisT);
+        vista.limpiarSeleccion();
+    }
+    public void ordenar(){
+
+        vista.mostrarOrdenados(logica.topologicalSort());
+        vista.actualizarMatriz(logica.getNodosTxt(), logica.getMatrizAdy());
+        vista.limpiarSeleccion();
+    }
+
+
+
+    //endregion
+
 }

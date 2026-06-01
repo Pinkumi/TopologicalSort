@@ -2,9 +2,8 @@ package com.topologicalsort.Tools;
 
 /**
  * Clase que representa una cola circular
- * @Autor Artemio Hernandez Villalobos
+ *
  * @param <T>
- * @Version 1.0.0
  */
 public class ColaCircular<T> {
     private T[] colaCir;

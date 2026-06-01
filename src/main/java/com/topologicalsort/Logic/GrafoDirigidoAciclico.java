@@ -166,11 +166,11 @@ public class GrafoDirigidoAciclico <T>{
      */
     public boolean tieneCiclos() {
         ArrayList<Nodo<T>> visitados = new ArrayList<>();
-        ArrayList<Nodo<T>> pilaDFS = new ArrayList<>();
+        ArrayList<Nodo<T>> camino = new ArrayList<>();
 
         for(Nodo<T> n :nodos){
             if(!visitados.contains(n)){
-                if(dfs(n, visitados, pilaDFS)){
+                if(dfs(n, visitados, camino)){
                     return true;
                 }
             }
@@ -179,22 +179,23 @@ public class GrafoDirigidoAciclico <T>{
         return false;
     }
 
-    private boolean dfs(Nodo<T> current, ArrayList<Nodo<T>> visitados, ArrayList<Nodo<T>> pilaDFS){
+    private boolean dfs(Nodo<T> current, ArrayList<Nodo<T>> visitados, ArrayList<Nodo<T>> camino){
         visitados.add(current);
-        pilaDFS.add(current);
+        camino.add(current);
         for(Nodo<T> vecino : current.getSalidas()){
             if(!visitados.contains(vecino)){
-                if(dfs(vecino, visitados, pilaDFS)){
+                if(dfs(vecino, visitados, camino)){
                     return true;
                 }
             }
-            else if(pilaDFS.contains(vecino)){
+            else if(camino.contains(vecino)){
                 return true;
             }
         }
-        pilaDFS.remove(current);
+        camino.remove(current);
         return false;
     }
+
 
     public int[][] getMatrizAdy() {
         int n = nodos.size();
