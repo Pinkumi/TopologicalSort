@@ -40,12 +40,23 @@ public class GrafoDirigidoAciclico <T>{
         return nodos.get(i).gradoDeSalida();
     }
 
+    /**
+     * Calcula cuantas aristas hay en el grafo actualmente.
+     * @return int la cantidad de aristas que tiene el grafo
+     */
     public int cuantasAristasHay() {
         int cuantasHay=0;
         for(Nodo<T> n : nodos){cuantasHay+=n.gradoDeEntrada();}
         return cuantasHay;
     }
 
+    /**
+     * Verifica si dos nodos son vecinos, es decir
+     * estan conectados entre si
+     * @param i El nodo de donde se inicia.
+     * @param j El nodo al quiere llegar
+     * @return true si estan conectados
+     */
     public boolean adyacente(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
             throw new IllegalArgumentException();
@@ -55,6 +66,13 @@ public class GrafoDirigidoAciclico <T>{
                 nodos.get(i).getSalidas().contains(nodos.get(j));
     }
 
+
+    /**
+     * Verifica si desde el nodo a se puede llegar al nodo b.
+     * @param i El nodo de donde se inicia.
+     * @param j El nodo al quiere llegar
+     * @return true si estan conectados
+     */
     public boolean conectados(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
             throw new IllegalArgumentException();
@@ -142,6 +160,10 @@ public class GrafoDirigidoAciclico <T>{
         return "Orden Topologico: " + sb.toString();
     }
 
+    /**
+     * Sirve para saber si hay un ciclo en el grafo
+     * @return true si se encontro un ciclo en el grafo
+     */
     public boolean tieneCiclos() {
         ArrayList<Nodo<T>> visitados = new ArrayList<>();
         ArrayList<Nodo<T>> pilaDFS = new ArrayList<>();
@@ -174,6 +196,10 @@ public class GrafoDirigidoAciclico <T>{
         return false;
     }
 
+    /**
+     * Metodo el cual sirve para mostrar la matriz de adyacencia
+     * @return String el cual es en forma de matriz
+     */
     public String mostrarEstructura() {
         StringBuilder sb = new StringBuilder();
         sb.append("DATO\t");
