@@ -13,8 +13,9 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
         Controller controller = new Controller();
-        Scene scene = new Scene(controller.getVista(), 800, 800);
+        Scene scene = new Scene(controller.getVista(), 820, 850);
         stage.setTitle("Hello!");
+        scene.getStylesheets().add("file:src/main/resources/estilos.css");
         stage.setScene(scene);
         stage.show();
     }

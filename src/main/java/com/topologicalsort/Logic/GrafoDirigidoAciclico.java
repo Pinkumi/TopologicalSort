@@ -28,14 +28,14 @@ public class GrafoDirigidoAciclico <T>{
 
     public int gradoDeEntrada(int i) {
         if (i < 0 || i >= n) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(" Indice fuera de rango valido");
         }
         return nodos.get(i).gradoDeEntrada();
     }
 
     public int gradoDeSalida(int i) {
         if (i < 0 || i >= n) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(" Indice fuera de rango valido");
         }
         return nodos.get(i).gradoDeSalida();
     }
@@ -59,7 +59,7 @@ public class GrafoDirigidoAciclico <T>{
      */
     public boolean adyacente(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(" Indices fuera de rangos validos");
         }
 
         return nodos.get(i).getEntradas().contains(nodos.get(j))||
@@ -75,7 +75,7 @@ public class GrafoDirigidoAciclico <T>{
      */
     public boolean conectados(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(" Indices fuera de rangos validos");
         }
 
         //int sizeGrafo = nodos.size();
@@ -253,15 +253,14 @@ public class GrafoDirigidoAciclico <T>{
      */
     public boolean insertarArista(int i, int j) {
         if (i < 0 || i >= n || j < 0 || j >= n) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Índices fuera de rango.");
         }
         nodos.get(i).conectarHacia(nodos.get(j));
         if(tieneCiclos()){
             nodos.get(i).eliminarNodoSalida(nodos.get(j));
             nodos.get(j).eliminarNodoEntrada(nodos.get(i));
-            return false;
+            throw new IllegalStateException("Genera un ciclo cerrado.");
         }
-
         return true;
     }
 

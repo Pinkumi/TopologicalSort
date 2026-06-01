@@ -5,13 +5,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class View extends Pane {
+public class View extends BorderPane {
     private HBox nodosLista;
     private GridPane matrizPanel;
 
@@ -24,6 +26,7 @@ public class View extends Pane {
     private GridPane botonesPanel;
     private VBox root;
     private ArrayList<ToggleButton> nodosSelec = new ArrayList<>();
+
     public View(){
         nodosLista = new HBox();
         matrizPanel = new GridPane();
@@ -31,6 +34,9 @@ public class View extends Pane {
         matrizScroll = new ScrollPane();
         nodosSelec = new ArrayList<>();
         root = new VBox();
+
+        Pane panel = new Pane();
+
         nuevoGrafo = new Button("Nuevo Grafo");
         agregarArista = new Button("Agregar Arista");
         sonAdyacentes = new Button("Son Adyacentes");
@@ -39,12 +45,25 @@ public class View extends Pane {
         getOutDegree = new Button("Grado de salida");
         conectado = new Button("Estan Conectados");
         totalAristas = new Button("Total Aristas");
+
 //        agregarArista.setOnAction(e -> { controller.});
+
         matrizPanel.setAlignment(Pos.CENTER);
+
         nodosScroll.setContent(nodosLista);
         nodosLista.setAlignment(Pos.CENTER);
+
         matrizPanel.setAlignment(Pos.CENTER);
+
         nodosScroll.setMinSize(100, 60);
+        nodosScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        nodosScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        nodosScroll.setFitToHeight(true);
+
+        nodosScroll.setPrefSize(550, 80);
+        nodosScroll.setMinSize(550, 80);
+        nodosScroll.setMaxSize(550, 80);
+        //nodosScroll.setStyle("-fx-border-color: purple");
 
         botonesPanel = new GridPane();
         botonesPanel.setAlignment(Pos.CENTER);
@@ -61,25 +80,70 @@ public class View extends Pane {
         botonesPanel.add(totalAristas,3, 1);
 
         matrizScroll.setContent(matrizPanel);
+
 //        setCenter(botonesPanel);
 //        setTop(nodosScroll);
 //        setBottom(matrizScroll);
-        root.getChildren().addAll(nodosScroll,botonesPanel,matrizScroll);
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(50);
-        root.setPadding(new Insets(20,20,20,20));
-        root.setPrefSize(800, 650);
-        getChildren().add(root);
+
+        Image img = new Image(getClass().getResource("/images/DS.png").toExternalForm());
+        BackgroundImage bg = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER, new BackgroundSize(800, 800, false, false, false, false));
+
+        panel.setBackground(new Background(bg));
+        panel.setPrefSize(800, 800);
+        panel.setMinSize(800, 800);
+        panel.setMaxSize(800, 800);
+
+        Image omocat = new Image(getClass().getResource("/images/omocat.png").toExternalForm());
+        ImageView gatito1 = new ImageView(omocat);
+        gatito1.setFitWidth(170);
+        gatito1.setFitHeight(170);
+        gatito1.setPreserveRatio(true);
+        gatito1.setLayoutX(550);
+        gatito1.setLayoutY(-50);
+
+        Image sakamoto = new Image(getClass().getResource("/images/sakamoto.png").toExternalForm());
+        ImageView gatito2 = new ImageView(sakamoto);
+        gatito2.setFitWidth(140);
+        gatito2.setFitHeight(140);
+        gatito2.setPreserveRatio(true);
+        gatito2.setLayoutX(15);
+        gatito2.setLayoutY(670);
+
+        nodosScroll.setLayoutX(133);
+        nodosScroll.setLayoutY(50);
+
+        botonesPanel.setLayoutX(133);
+        botonesPanel.setLayoutY(140);
+
+        matrizScroll.setLayoutX(160);
+        matrizScroll.setLayoutY(470);
+        panel.getChildren().addAll(nodosScroll, botonesPanel, matrizScroll, gatito1);
+        setCenter(panel);
 
         matrizScroll.setContent(matrizPanel);
         matrizScroll.setFitToWidth(true);
         matrizScroll.setFitToHeight(true);
         matrizScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         matrizScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        matrizPanel.setAlignment(Pos.CENTER);
+
+        matrizScroll.setPrefSize(470, 270);
+        matrizScroll.setMinSize(470,270);
+        matrizScroll.setMaxSize(470,270);
+
+        matrizPanel.setAlignment(Pos.BOTTOM_CENTER);
 
         nodosLista.setSpacing(15);
+        nodosScroll.setFitToWidth(true);
+
+        botonesPanel.setPrefSize(550, 200);
+        botonesPanel.setMinSize(550, 200);
+        botonesPanel.setMaxSize(550, 200);
+        //botonesPanel.setStyle("-fx-border-color: purple");
+        nodosScroll.getStyleClass().add("scroll");
+
     }
+
     public void actualizarNodos(ArrayList<String> nodosString){
         nodosLista.getChildren().clear();
 
@@ -88,6 +152,7 @@ public class View extends Pane {
             ToggleButton nodeBttn = new ToggleButton(nodosString.get(i));
             nodeBttn.setUserData(i);
             nodeBttn.setPrefSize(40, 40);
+            nodeBttn.setMinWidth(40);
             nodeBttn.setOnAction(e -> {
                 if(nodeBttn.isSelected()){
                     if(nodosSelec.size() >= 2){
@@ -100,26 +165,39 @@ public class View extends Pane {
             nodosLista.getChildren().add(nodeBttn);
         }
     }
+
     public void actualizarMatriz(ArrayList<String> nodos, int[][] matrizAdyacencia) {
         matrizPanel.getChildren().clear();
-        matrizPanel.add(new Label(""), 0, 0);
+        Label esquina = new Label("");
+        esquina.setPrefSize(40, 40);
+        esquina.getStyleClass().add("matriz-esquina");
+        matrizPanel.add(esquina, 0, 0);
         for (int col = 0; col < nodos.size(); col++) {
             Label encabezado = new Label(nodos.get(col));
             encabezado.setAlignment(Pos.CENTER);
-            encabezado.setPadding(new Insets(5));
+            encabezado.setPrefSize(40, 40);
+            encabezado.setMinSize(30, 30);
+            encabezado.getStyleClass().add("matriz-encabezado");
             matrizPanel.add(encabezado, col + 1, 0);
         }
-
         for (int fila = 0; fila < nodos.size(); fila++) {
             Label encabezadoFila = new Label(nodos.get(fila));
             encabezadoFila.setAlignment(Pos.CENTER);
-            encabezadoFila.setPadding(new Insets(5));
+            encabezadoFila.setPrefSize(40, 40);
+            encabezadoFila.setMinSize(30, 30);
+            encabezadoFila.getStyleClass().add("matriz-encabezado");
             matrizPanel.add(encabezadoFila, 0, fila + 1);
             for (int col = 0; col < nodos.size(); col++) {
-                Label valor = new Label(String.valueOf(matrizAdyacencia[fila][col]));
+                int valorMatriz = matrizAdyacencia[fila][col];
+                Label valor = new Label(String.valueOf(valorMatriz));
                 valor.setAlignment(Pos.CENTER);
-                valor.setPrefSize(30, 30);
-                valor.setStyle("-fx-border-color: purple;");
+                valor.setPrefSize(40, 40);
+                valor.setMinSize(30, 30);
+                if (valorMatriz == 1) {
+                    valor.getStyleClass().add("matriz-celda-uno");
+                } else {
+                    valor.getStyleClass().add("matriz-celda-cero");
+                }
                 matrizPanel.add(valor, col + 1, fila + 1);
             }
         }
@@ -128,6 +206,7 @@ public class View extends Pane {
         matrizScroll.setPrefViewportWidth(matrizPanel.prefWidth(-1) + 20);
         matrizScroll.setPrefViewportHeight(matrizPanel.prefHeight(-1) + 20);
     }
+
     public ArrayList<String> pedirNodos() {
         TextInputDialog cantidadDialog = new TextInputDialog();
         cantidadDialog.setTitle("Nuevo Grafo");
@@ -153,7 +232,6 @@ public class View extends Pane {
         return nombres;
     }
 
-
     public int getIdx(){
         if(nodosSelec.isEmpty()){
             return -1;
@@ -176,14 +254,24 @@ public class View extends Pane {
     }
 
 
+    public void mostrarAlertaError(String titulo, String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
 
     //region popups
     public void mostrarInDeg(int inDegree, String nodoTxt){
         Stage wind = new Stage();
         wind.initModality(Modality.APPLICATION_MODAL);
         Label label = new Label("El nodo "+ nodoTxt+ " tiene " + inDegree + " grados de entrada");
+        label.getStyleClass().add("popup-label");
         StackPane root = new StackPane(label);
-        Scene scene = new Scene(root);
+        root.getStyleClass().add("popup-root");
+        Scene scene = new Scene(root, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
         wind.setScene(scene);
         wind.showAndWait();
     }
@@ -191,8 +279,12 @@ public class View extends Pane {
         Stage wind = new Stage();
         wind.initModality(Modality.APPLICATION_MODAL);
         Label label = new Label("El nodo "+ nodoTxt+ " tiene " + outDegree + " grados de salida");
+        label.getStyleClass().add("popup-label");
         StackPane root = new StackPane(label);
-        Scene scene = new Scene(root);
+        root.getStyleClass().add("popup-root");
+        Scene scene = new Scene(root, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+
         wind.setScene(scene);
         wind.showAndWait();
     }
@@ -204,7 +296,12 @@ public class View extends Pane {
         if(esAdy) label = new Label("Los 2 nodos son adyacentes");
         else label = new Label("Los nodos NO son adyacentes");
         StackPane root = new StackPane(label);
-        Scene scene = new Scene(root);
+
+        root.getStyleClass().add("popup-root");
+        label.getStyleClass().add("popup-label");
+        Scene scene = new Scene(root, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+
         wind.setScene(scene);
         wind.showAndWait();
     }
@@ -214,9 +311,12 @@ public class View extends Pane {
         Label label;
         if(estanConect) label = new Label("Los 2 nodos estan conectaods");
         else label = new Label("Los nodos NO estan conectaods");
-
+        label.getStyleClass().add("popup-label");
         StackPane root = new StackPane(label);
-        Scene scene = new Scene(root);
+        root.getStyleClass().add("popup-root");
+        Scene scene = new Scene(root, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+
         wind.setScene(scene);
         wind.showAndWait();
     }
@@ -224,9 +324,12 @@ public class View extends Pane {
         Stage wind = new Stage();
         wind.initModality(Modality.APPLICATION_MODAL);
         Label label = new Label("En el grafo hay un total de: " + aristasTot+ " Aristas");
-
+        label.getStyleClass().add("popup-label");
         StackPane root = new StackPane(label);
-        Scene scene = new Scene(root);
+        root.getStyleClass().add("popup-root");
+        Scene scene = new Scene(root, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+
         wind.setScene(scene);
         wind.showAndWait();
     }
@@ -234,8 +337,12 @@ public class View extends Pane {
         Stage wind = new Stage();
         wind.initModality(Modality.APPLICATION_MODAL);
         Label label = new Label(ordenados);
+        label.getStyleClass().add("popup-label");
         StackPane root = new StackPane(label);
-        Scene scene = new Scene(root);
+        root.getStyleClass().add("popup-root");
+        Scene scene = new Scene(root, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+
         wind.setScene(scene);
         wind.showAndWait();
     }

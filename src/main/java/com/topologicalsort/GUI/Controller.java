@@ -69,17 +69,21 @@ public class Controller {
     public void agregarArista(){
         int[] seleccion = vista.getIdxNodes();
         if(seleccion == null){
-//            System.out.println("invalido");
+            vista.mostrarAlertaError("Faltan Nodos", "No seleccionaste los nodos.");
             return;
         }
-        logica.insertarArista(seleccion[0], seleccion[1]);
-        vista.actualizarMatriz(logica.getNodosTxt(), logica.getMatrizAdy());
+        try {
+            logica.insertarArista(seleccion[0], seleccion[1]);
+            vista.actualizarMatriz(logica.getNodosTxt(), logica.getMatrizAdy());
+        } catch (Exception e) {
+            vista.mostrarAlertaError("Error de Conexión", "No se pudo añadir la arista ya que genera ciclo");
+        }
         vista.limpiarSeleccion();
     }
     public void esAdy(){
         int[] seleccion = vista.getIdxNodes();
         if(seleccion == null){
-//            System.out.println("invalido");
+            vista.mostrarAlertaError("Faltan Nodos", "No seleccionaste los nodos.");
             return;
         }
         boolean sonAdy = logica.adyacente(seleccion[0], seleccion[1]);
@@ -89,7 +93,7 @@ public class Controller {
     public void estanConectados(){
         int[] seleccion = vista.getIdxNodes();
         if(seleccion == null){
-//            System.out.println("invalido");
+            vista.mostrarAlertaError("Faltan Nodos", "No seleccionaste los nodos.");
             return;
         }
         boolean conect = logica.conectados(seleccion[0], seleccion[1]);
@@ -100,6 +104,7 @@ public class Controller {
         int seleccion = vista.getIdx();
 
         if(seleccion == -1){
+            vista.mostrarAlertaError("Faltan Nodos", "No seleccionaste los nodos.");
             return;
         }
         String nodoTxt = (String)logica.getNodosTxt().get(seleccion);
@@ -111,6 +116,7 @@ public class Controller {
         int seleccion = vista.getIdx();
 
         if(seleccion == -1){
+            vista.mostrarAlertaError("Faltan Nodos", "No seleccionaste los nodos.");
             return;
         }
         String nodoTxt = (String)logica.getNodosTxt().get(seleccion);
@@ -125,13 +131,10 @@ public class Controller {
         vista.limpiarSeleccion();
     }
     public void ordenar(){
-
         vista.mostrarOrdenados(logica.topologicalSort());
         vista.actualizarMatriz(logica.getNodosTxt(), logica.getMatrizAdy());
         vista.limpiarSeleccion();
     }
-
-
 
     //endregion
 
