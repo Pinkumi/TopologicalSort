@@ -14,7 +14,6 @@ public class Nodo <T>{
     private ArrayList<Nodo<T>> salidas;
     private ArrayList<Nodo<T>> entradas;
 
-
     public Nodo(T info){
         this.info = info;
         this.salidas = new ArrayList<Nodo<T>>();
@@ -39,11 +38,28 @@ public class Nodo <T>{
         return salidas.size();
     }
 
+    /**Conecta dos nodos entre si
+     * @param destino El otro nodo al cual se va a conectar
+     */
+    public void conectarHacia(Nodo<T> destino) {
+        if(destino != null){
+            this.salidas.add(destino);
+            destino.entradas.add(this);
+        }
+    }
+
+    public void eliminarNodoEntrada(Nodo<T> entrada){
+        if(this.entradas.remove(entrada))entrada.salidas.remove(this);
+
+    }
+
+    public void eliminarNodoSalida(Nodo<T> salida){
+        if(this.salidas.remove(salida))salida.entradas.remove(this);
+    }
+
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        for(Nodo<T> salida: salidas) sb.append(salida.toString()).append(" ");
-        return sb.toString();
+        return "Info: "+info+" Cantidad de aristas: "+ (gradoDeEntrada()+gradoDeSalida());
     }
 
     //region setter y getters
@@ -70,24 +86,6 @@ public class Nodo <T>{
 
     public ArrayList<Nodo<T>> getEntradas(){
         return entradas;
-    }
-
-    public void agregarNodoEntrada(Nodo<T> entrada){
-        this.entradas.add(entrada);
-    }
-
-    public void agregarNodoSalida(Nodo<T> salida){
-        this.salidas.add(salida);
-    }
-
-    public void eliminarNodoEntrada(Nodo<T> entrada){
-        entrada.eliminarNodoSalida(this);
-        entradas.remove(entrada);
-    }
-
-    public void eliminarNodoSalida(Nodo<T> salida){
-        salida.eliminarNodoEntrada(this);
-        salidas.remove(salida);
     }
     //endregion
 }
